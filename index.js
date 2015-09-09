@@ -4,20 +4,20 @@
 module.exports = {
   name: 'ember-cli-deprecation-workflow',
 
-  _shouldInclude: function() {
+  _shouldInclude: function(app) {
     // the presence of `this.app.tests` shows that we are in one of:
     //
     // * running non-production build
     // * running tests against production
     //
-    return this.app.tests;
+    return app.tests;
   },
 
-  included: function() {
+  included: function(app) {
     // From https://github.com/rwjblue/ember-debug-handlers-polyfill/blob/master/index.js
-    var app = this.app;
+    var app = this.app || app;
 
-    if (this._shouldInclude()) {
+    if (this._shouldInclude(app)) {
       app.import('vendor/ember-debug-handlers-polyfill/debug.js');
       app.import('vendor/ember-cli-deprecation-workflow/main.js');
     } else {
@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   contentFor: function(type) {
-    if (this._shouldInclude() && type === 'vendor-prefix') {
+    if (this._shouldInclude(app) && type === 'vendor-prefix') {
       var fs = require('fs');
       var path = require('path');
       var existsSync = require('exists-sync');
