@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   contentFor: function(type) {
-    if (this._shouldInclude(app) && type === 'vendor-prefix') {
+    if (this._shouldInclude(this.app) && type === 'vendor-prefix') {
       var fs = require('fs');
       var path = require('path');
       var existsSync = require('exists-sync');
